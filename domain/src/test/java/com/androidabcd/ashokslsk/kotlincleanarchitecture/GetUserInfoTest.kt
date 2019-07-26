@@ -3,7 +3,6 @@ package com.androidabcd.ashokslsk.kotlincleanarchitecture
 import com.androidabcd.ashokslsk.kotlincleanarchitecture.repository.BankingRepository
 import com.androidabcd.ashokslsk.kotlincleanarchitecture.utils.TestDataGenerator
 import io.reactivex.Observable
-import io.reactivex.Scheduler
 import io.reactivex.schedulers.Schedulers
 import org.drulabs.bankbuddy.domain.usecases.GetUserInfoTask
 import org.junit.Before
@@ -42,13 +41,13 @@ class GetUserInfoTest {
         Mockito.`when`(bankingRepository.getUserInfo(userInfo.accountNumber))
             .thenReturn(Observable.just(userInfo))
 
-        val testObserver = getUserInfoTask.buildUseCase(userInfo.accountNumber)
+        val ObserverTest = getUserInfoTask.buildUseCase(userInfo.accountNumber)
             .test()
 
         Mockito.verify(bankingRepository, times(1))
             .getUserInfo(userInfo.accountNumber)
 
-        testObserver.assertSubscribed()
+        ObserverTest.assertSubscribed()
             .assertValue {it == userInfo}
             .assertComplete()
 
